@@ -2,14 +2,13 @@ import sys
 from setuptools import setup
 from setuptools import find_packages
 
-# change this.
-NAME = "your package name"
-VERSION = "0.0.1"
-AUTHOR = "your user name"
-EMAIL = "your email"
-URL = "your project url"
-LICENSE = "your license"
-DESCRIPTION = "your project description"
+NAME = "proces"
+VERSION = "0.1.0"
+AUTHOR = "Ailln"
+EMAIL = "kinggreenhall@gmail.com"
+URL = "https://github.com/Ailln/proces"
+LICENSE = "MIT License"
+DESCRIPTION = "text preprocess."
 
 if sys.version_info[:2] < (3, 6):
     raise RuntimeError("Python version >= 3.6 required.")
@@ -28,16 +27,6 @@ if __name__ == "__main__":
         install_requires=open("./requirements.txt", "r").read().splitlines(),
         long_description=open("./README.md", "r").read(),
         long_description_content_type='text/markdown',
-        # change package_name to your package name.
-        entry_points={
-            "console_scripts": [
-                "package_name=package_name.shell:run"
-            ]
-        },
-        package_data={
-            # change package_name to your package name.
-            "package_name": ["src/*.txt"]
-        },
         zip_safe=True,
         classifiers=[
             "Programming Language :: Python :: 3",

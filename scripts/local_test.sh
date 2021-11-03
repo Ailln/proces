@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # change to your conda path
-source ~/anaconda3/etc/profile.d/conda.sh
+source ~/opt/anaconda3/etc/profile.d/conda.sh
 
 env_list=$(conda env list)
 for env in py3613 py3711 py3811
