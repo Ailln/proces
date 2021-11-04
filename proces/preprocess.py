@@ -23,7 +23,7 @@ def uppercase_to_lowercase(text: str) -> str:
     return text.lower()
 
 
-def simplified_to_traditional(text: str) -> str:
+def traditional_to_simplified(text: str) -> str:
     """繁体转简体
 
     Attributes:
@@ -55,12 +55,12 @@ def preprocess(data: Union[str, list], pipelines: Optional[list] = None):
 
     Attributes:
         data: input data.
-        pipelines: default ["delete_blank_character", "uppercase_to_lowercase", "simplified_to_traditional", "full_angle_to_half_angle"]
+        pipelines: default ["delete_blank_character", "uppercase_to_lowercase", "traditional_to_simplified", "full_angle_to_half_angle"]
     """
     all_pipelines = [
         "delete_blank_character",
         "uppercase_to_lowercase",
-        "simplified_to_traditional",
+        "traditional_to_simplified",
         "full_angle_to_half_angle"
     ]
     if pipelines is None:
