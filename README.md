@@ -30,23 +30,26 @@ cd proces && python setup.py install
 ```python
 from proces import preprocess
 
-# 默认会按照顺序执行，删除空白字符、大写转小写、繁体转简体、全角转半角
+# 默认会按照顺序执行，处理空白字符、大写转小写、繁体转简体、全角转半角
 result = preprocess("Today, 你 幹 什 麼 ！")
 # result: today,你干什么!
 
 # 配置 pipeline，比如只去除空白字符
-result = preprocess("Today, 你 幹 什 麼 ！", pipelines=["delete_blank_character"])
+result = preprocess("Today, 你 幹 什 麼 ！", pipelines=["handle_blank_character"])
 # result: Today,你幹什麼！
 
 # 单独使用子方法
-from proces import delete_blank_character
+from proces import handle_blank_character
 from proces import uppercase_to_lowercase
 from proces import traditional_to_simplified
 from proces import full_angle_to_half_angle
+from proces import handle_substitute
 
-# 删除空白字符
-result = delete_blank_character("空 白 字 符")
+# 处理空白字符
+result = handle_blank_character("空 白 字 符")
 # result: 空白字符
+result = handle_blank_character("空 白 字 符", ",")
+# result: 空,白,字,符
 
 # 大写转小写
 result = uppercase_to_lowercase("UP to low")
@@ -59,12 +62,12 @@ result = traditional_to_simplified("我幹什麼不干你事")
 # 全角转半角
 result = full_angle_to_half_angle("你好！")
 # result: 你好!
+
+# 替换一些字符
+result = handle_substitute("你好！/:-", r"/:-", "表情")
+# result: 你好！表情
 ```
 
-## 3 TODO
-
-- [x] preprocess test
-
-## 4 许可
+## 3 许可
 
 [![](https://award.dovolopor.com?lt=License&rt=MIT&rbc=green)](./LICENSE)

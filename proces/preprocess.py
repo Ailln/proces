@@ -5,13 +5,16 @@ from typing import Optional
 from zhconv import convert
 
 
-def delete_blank_character(text: str) -> str:
-    """删除空白字符
+def handle_blank_character(text: str, repl: Optional[str] = None) -> str:
+    """处理空白字符，默认替换成空字符
 
     Attributes:
         text: input text
+        repl: replace text
     """
-    return re.sub(r"\s*", "", text)
+    if repl is None:
+        repl = ""
+    return re.sub(r"\s+", repl, text)
 
 
 def uppercase_to_lowercase(text: str) -> str:
@@ -50,21 +53,46 @@ def full_angle_to_half_angle(text: str) -> str:
     return result
 
 
-def preprocess(data: Union[str, list], pipelines: Optional[list] = None):
+def handle_substitute(text: str, ptn: str, repl: str) -> str:
+    """替换一些字符
+
+    Attributes:
+        text: input text
+        ptn: re pattern
+        repl: replace text
+    """
+    return re.sub(ptn, repl, text)
+
+
+def preprocess(data: Union[str, list], pipelines: Optional[list] = None, params: Optional[dict] = None) \
+        -> Union[str, list]:
     """文本预处理
 
     Attributes:
         data: input data.
-        pipelines: default ["delete_blank_character", "uppercase_to_lowercase", "traditional_to_simplified", "full_angle_to_half_angle"]
+        pipelines: default is
+            ["handle_blank_character",
+            "uppercase_to_lowercase",
+            "traditional_to_simplified",
+            "full_angle_to_half_angle"]
+        params: function parameters
     """
     all_pipelines = [
-        "delete_blank_character",
+        "handle_blank_character",
+        "uppercase_to_lowercase",
+        "traditional_to_simplified",
+        "full_angle_to_half_angle",
+        "handle_substitute"
+    ]
+
+    default_pipelines = [
+        "handle_blank_character",
         "uppercase_to_lowercase",
         "traditional_to_simplified",
         "full_angle_to_half_angle"
     ]
     if pipelines is None:
-        pipelines = all_pipelines
+        pipelines = default_pipelines
 
     if type(data) == str:
         data_list = [data]
@@ -75,7 +103,10 @@ def preprocess(data: Union[str, list], pipelines: Optional[list] = None):
     for text in data_list:
         for func in pipelines:
             if func in all_pipelines:
-                text = eval(f"{func}(text)")
+                if params is not None and func in params.keys():
+                    text = eval(f"{func}(text, *{params[func]})")
+                else:
+                    text = eval(f"{func}(text)")
             else:
                 raise ValueError(f"pipeline: {func} not support!")
         results.append(text)

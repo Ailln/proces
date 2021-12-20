@@ -3,7 +3,7 @@ from setuptools import setup
 from setuptools import find_packages
 
 NAME = "proces"
-VERSION = "0.1.1"
+VERSION = "0.1.2"
 AUTHOR = "Ailln"
 EMAIL = "kinggreenhall@gmail.com"
 URL = "https://github.com/Ailln/proces"

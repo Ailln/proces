@@ -1,18 +1,34 @@
 import unittest
 
-from proces import delete_blank_character
+from proces import handle_blank_character
 from proces import uppercase_to_lowercase
 from proces import traditional_to_simplified
 from proces import full_angle_to_half_angle
+from proces import handle_substitute
 from proces import preprocess
 
 
 class TestPreprocess(unittest.TestCase):
     def setUp(self) -> None:
-        self.dbc_data = {
+        self.hbc_data = {
             "删除 空白  字符": "删除空白字符",
             " 删除 空白 字符": "删除空白字符",
             " 删 除 空 白 字 符 ": "删除空白字符",
+        }
+
+        self.hbc_data_with_params = {
+            "删除 空白  字符": {
+                "params": [","],
+                "result": "删除,空白,字符"
+            },
+            " 删除 空白 字符": {
+                "params": [","],
+                "result": ",删除,空白,字符"
+            },
+            " 删 除 空 白 字 符 ": {
+                "params": [","],
+                "result": ",删,除,空,白,字,符,"
+            },
         }
 
         self.utl_data = {
@@ -33,9 +49,26 @@ class TestPreprocess(unittest.TestCase):
             "！": "!",
         }
 
-    def test_delete_blank_character(self) -> None:
-        for key, value in self.dbc_data.items():
-            self.assertEqual(delete_blank_character(key), value)
+        self.hsub_data_with_params = {
+            "hi/:": {
+                "params": [r"/:", ""],
+                "result": "hi"
+            },
+            "你好:": {
+                "params": [r":", ""],
+                "result": "你好"
+            },
+            "！/:": {
+                "params": [r"！", "!"],
+                "result": "!/:"
+            }
+        }
+
+    def test_handle_blank_character(self) -> None:
+        for key, value in self.hbc_data.items():
+            self.assertEqual(handle_blank_character(key), value)
+        for key, value in self.hbc_data_with_params.items():
+            self.assertEqual(handle_blank_character(key, *value["params"]), value["result"])
 
     def test_uppercase_to_lowercase(self) -> None:
         for key, value in self.utl_data.items():
@@ -47,18 +80,28 @@ class TestPreprocess(unittest.TestCase):
 
     def test_full_angle_to_half_angle(self) -> None:
         for key, value in self.fth_data.items():
-            print(full_angle_to_half_angle(key))
             self.assertEqual(full_angle_to_half_angle(key), value)
 
+    def test_handle_substitute(self) -> None:
+        for key, value in self.hsub_data_with_params.items():
+            self.assertEqual(handle_substitute(key, *value["params"]), value["result"])
+
     def test_preprocess(self) -> None:
-        for key, value in self.dbc_data.items():
+        for key, value in self.hbc_data.items():
             self.assertEqual(preprocess(key), value)
+        for key, value in self.hbc_data_with_params.items():
+            self.assertEqual(preprocess(key, params={"handle_blank_character": value["params"]}), value["result"])
         for key, value in self.utl_data.items():
             self.assertEqual(preprocess(key), value)
         for key, value in self.tts_data.items():
             self.assertEqual(preprocess(key), value)
         for key, value in self.fth_data.items():
             self.assertEqual(preprocess(key), value)
+        for key, value in self.hsub_data_with_params.items():
+            self.assertEqual(
+                preprocess(key, pipelines=["handle_substitute"], params={"handle_substitute": value["params"]}),
+                value["result"]
+            )
 
 
 if __name__ == '__main__':
