@@ -1,5 +1,6 @@
 import unittest
 
+from proces import get_all_pipelines
 from proces import handle_blank_character
 from proces import uppercase_to_lowercase
 from proces import traditional_to_simplified
@@ -10,6 +11,14 @@ from proces import preprocess
 
 class TestPreprocess(unittest.TestCase):
     def setUp(self) -> None:
+        self.all_pipelines = [
+            "handle_blank_character",
+            "uppercase_to_lowercase",
+            "traditional_to_simplified",
+            "full_angle_to_half_angle",
+            "handle_substitute"
+        ]
+
         self.hbc_data = {
             "删除 空白  字符": "删除空白字符",
             " 删除 空白 字符": "删除空白字符",
@@ -63,6 +72,9 @@ class TestPreprocess(unittest.TestCase):
                 "result": "!/:"
             }
         }
+
+    def test_get_all_pipelines(self) -> None:
+        self.assertEqual(get_all_pipelines(), self.all_pipelines)
 
     def test_handle_blank_character(self) -> None:
         for key, value in self.hbc_data.items():

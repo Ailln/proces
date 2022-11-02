@@ -1,19 +1,30 @@
 import re
-from typing import Union
-from typing import Optional
+from typing import Union, Optional
 
-from zhconv import convert
+from .conf import T2S_DICT
+
+ALL_PIPELINES = [
+    "handle_blank_character",
+    "uppercase_to_lowercase",
+    "traditional_to_simplified",
+    "full_angle_to_half_angle",
+    "handle_substitute"
+]
 
 
-def handle_blank_character(text: str, repl: Optional[str] = None) -> str:
+def get_all_pipelines() -> list:
+    """获取所有的预处理管道"""
+    return ALL_PIPELINES
+
+
+def handle_blank_character(text: str, repl: Optional[str] = "") -> str:
     """处理空白字符，默认替换成空字符
 
     Attributes:
         text: input text
         repl: replace text
     """
-    if repl is None:
-        repl = ""
+    print(text, repl)
     return re.sub(r"\s+", repl, text)
 
 
@@ -31,8 +42,10 @@ def traditional_to_simplified(text: str) -> str:
 
     Attributes:
         text: input text
+
+    convert data from mediawiki.
     """
-    return convert(text, "zh-cn")
+    return "".join([T2S_DICT[t] if t in T2S_DICT.keys() else t for t in text])
 
 
 def full_angle_to_half_angle(text: str) -> str:
@@ -77,14 +90,6 @@ def preprocess(data: Union[str, list], pipelines: Optional[list] = None, params:
             "full_angle_to_half_angle"]
         params: function parameters
     """
-    all_pipelines = [
-        "handle_blank_character",
-        "uppercase_to_lowercase",
-        "traditional_to_simplified",
-        "full_angle_to_half_angle",
-        "handle_substitute"
-    ]
-
     default_pipelines = [
         "handle_blank_character",
         "uppercase_to_lowercase",
@@ -102,11 +107,12 @@ def preprocess(data: Union[str, list], pipelines: Optional[list] = None, params:
     results = []
     for text in data_list:
         for func in pipelines:
-            if func in all_pipelines:
-                if params is not None and func in params.keys():
-                    text = eval(f"{func}(text, *{params[func]})")
+            if func in ALL_PIPELINES:
+                if params is None:
+                    text = globals()[func](text)
                 else:
-                    text = eval(f"{func}(text)")
+                    if func in params.keys():
+                        text = globals()[func](text, *params[func])
             else:
                 raise ValueError(f"pipeline: {func} not support!")
         results.append(text)

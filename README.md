@@ -22,6 +22,7 @@ pip install proces -U
 
 ```shell
 git clone https://github.com/Ailln/proces.git
+
 cd proces && python setup.py install
 ```
 
@@ -68,6 +69,11 @@ result = handle_substitute("你好！/:-", r"/:-", "表情")
 # result: 你好！表情
 ```
 
-## 3 许可
+## 3 TODO
+
+- [x] add get all methods of preprocess
+- [ ] 装饰器
+
+## 4 许可
 
 [![](https://award.dovolopor.com?lt=License&rt=MIT&rbc=green)](./LICENSE)

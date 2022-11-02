@@ -1,2 +1,1 @@
 setuptools>=40.6.3
-zhconv==1.4.3
