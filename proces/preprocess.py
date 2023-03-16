@@ -4,6 +4,7 @@ from typing import Union, Optional
 from .conf import T2S_DICT
 
 ALL_PIPELINES = [
+    "filter_unusual_characters",
     "handle_blank_character",
     "uppercase_to_lowercase",
     "traditional_to_simplified",
@@ -17,6 +18,18 @@ def get_all_pipelines() -> list:
     return ALL_PIPELINES
 
 
+def filter_unusual_characters(text: str) -> str:
+    """过滤所有非常见字符，保留中文、英文、常见标点、空白字符
+
+    Attributes:
+        text: input text
+    """
+    chinese = r"\u4E00-\u9FA5"
+    punctuation = r"!\"#$%&\'()*+,\-./:;<=>?@\\\[\]^_`{|}~¥·—‘’“”…、。〈〉《》「」『』【】！（），：；？｜～"
+
+    return re.sub(fr"[^\w\s{chinese}{punctuation}]+", "", text)
+
+
 def handle_blank_character(text: str, repl: Optional[str] = "") -> str:
     """处理空白字符，默认替换成空字符
 
@@ -24,7 +37,6 @@ def handle_blank_character(text: str, repl: Optional[str] = "") -> str:
         text: input text
         repl: replace text
     """
-    print(text, repl)
     return re.sub(r"\s+", repl, text)
 
 

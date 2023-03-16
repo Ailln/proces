@@ -40,11 +40,19 @@ result = preprocess("Today, 你 幹 什 麼 ！", pipelines=["handle_blank_chara
 # result: Today,你幹什麼！
 
 # 单独使用子方法
+from proces import filter_unusual_characters, filter_
 from proces import handle_blank_character
 from proces import uppercase_to_lowercase
 from proces import traditional_to_simplified
 from proces import full_angle_to_half_angle
 from proces import handle_substitute
+
+# 删除不常见字符
+result = filter_unusual_characters("【你是个恶魔😈啊�】")
+# result: 【你是个恶魔啊】
+# 也可以使用短方法 filter_
+result = filter_("【你是个恶魔😈啊�】")
+# result: 【你是个恶魔啊】
 
 # 处理空白字符
 result = handle_blank_character("空 白 字 符")

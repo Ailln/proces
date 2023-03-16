@@ -12,6 +12,7 @@ DESCRIPTION = "text preprocess."
 if sys.version_info < (3, 6, 0):
     raise RuntimeError(f"{NAME} requires Python >=3.6.0, but yours is {sys.version}!")
 
+__version__ = "0.0.0"
 try:
     lib_py = os.path.join(NAME, "__init__.py")
     with open(lib_py, "r", encoding="utf8") as f_v:
@@ -21,8 +22,8 @@ try:
                 v_line = line.strip()
                 break
         exec(v_line)  # get __version__ from __init__.py
-except FileNotFoundError:
-    __version__ = "0.0.0"
+except FileNotFoundError as e:
+    raise e
 
 
 if __name__ == "__main__":
@@ -36,7 +37,8 @@ if __name__ == "__main__":
         description=DESCRIPTION,
         packages=find_packages(),
         include_package_data=True,
-        install_requires=open("./requirements.txt", "r", encoding="utf-8").read().splitlines(),
+        install_reqires=[],
+        setup_requires=["setuptools>=67.6.0"],
         long_description=open("./README.md", "r", encoding="utf-8").read(),
         long_description_content_type='text/markdown',
         zip_safe=True,
