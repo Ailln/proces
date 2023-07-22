@@ -1,6 +1,6 @@
 import os
 import sys
-from setuptools import setup, find_packages
+from setuptools import setup, find_namespace_packages
 
 NAME = "proces"
 AUTHOR = "Ailln"
@@ -10,7 +10,7 @@ LICENSE = "MIT License"
 DESCRIPTION = "text preprocess."
 
 if sys.version_info < (3, 6, 0):
-    raise RuntimeError(f"{NAME} requires Python >=3.6.0, but yours is {sys.version}!")
+    raise RuntimeError(f"{NAME} requires Python >= 3.6.0, but yours is {sys.version}!")
 
 __version__ = "0.0.0"
 try:
@@ -21,10 +21,10 @@ try:
             if line.startswith("__version__"):
                 v_line = line.strip()
                 break
-        exec(v_line)  # get __version__ from __init__.py
+        # get __version__ from __init__.py
+        exec(v_line)
 except FileNotFoundError as e:
     raise e
-
 
 if __name__ == "__main__":
     setup(
@@ -35,18 +35,19 @@ if __name__ == "__main__":
         url=URL,
         license=LICENSE,
         description=DESCRIPTION,
-        packages=find_packages(),
+        packages=find_namespace_packages(),
+        long_description=open("./README.md", "r", encoding="utf-8").read(),
+        long_description_content_type="text/markdown",
         include_package_data=True,
         install_reqires=[],
         setup_requires=["setuptools>=67.6.0"],
-        long_description=open("./README.md", "r", encoding="utf-8").read(),
-        long_description_content_type='text/markdown',
         zip_safe=True,
         classifiers=[
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3.6",
             "Programming Language :: Python :: 3.7",
             "Programming Language :: Python :: 3.8",
+            "Programming Language :: Python :: 3.9",
             f"License :: OSI Approved :: {LICENSE}",
             "Operating System :: OS Independent",
         ],

@@ -1,4 +1,4 @@
-import re
+from re import sub
 from typing import Union, Optional
 
 from .conf import T2S_DICT
@@ -27,7 +27,7 @@ def filter_unusual_characters(text: str) -> str:
     chinese = r"\u4E00-\u9FA5"
     punctuation = r"!\"#$%&\'()*+,\-./:;<=>?@\\\[\]^_`{|}~¥·—‘’“”…、。〈〉《》「」『』【】！（），：；？｜～"
 
-    return re.sub(fr"[^\w\s{chinese}{punctuation}]+", "", text)
+    return sub(fr"[^\w\s{chinese}{punctuation}]+", "", text)
 
 
 def handle_blank_character(text: str, repl: Optional[str] = "") -> str:
@@ -37,7 +37,7 @@ def handle_blank_character(text: str, repl: Optional[str] = "") -> str:
         text: input text
         repl: replace text
     """
-    return re.sub(r"\s+", repl, text)
+    return sub(r"\s+", repl, text)
 
 
 def uppercase_to_lowercase(text: str) -> str:
@@ -86,7 +86,7 @@ def handle_substitute(text: str, ptn: str, repl: str) -> str:
         ptn: re pattern
         repl: replace text
     """
-    return re.sub(ptn, repl, text)
+    return sub(ptn, repl, text)
 
 
 def preprocess(data: Union[str, list], pipelines: Optional[list] = None, params: Optional[dict] = None) \
@@ -94,7 +94,7 @@ def preprocess(data: Union[str, list], pipelines: Optional[list] = None, params:
     """文本预处理
 
     Attributes:
-        data: input data.
+        data: input data
         pipelines: default is
             ["handle_blank_character",
             "uppercase_to_lowercase",

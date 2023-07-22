@@ -6,10 +6,12 @@ from .preprocess import traditional_to_simplified
 from .preprocess import full_angle_to_half_angle
 from .preprocess import handle_substitute
 from .preprocess import preprocess
-
-__version__ = "0.1.4"
+from .masking import mask_phone
+from .masking import mask_address
 
 filter_ = filter_unusual_characters
+
+__version__ = "0.1.5"
 
 __all__ = [
     "get_all_pipelines",
@@ -20,4 +22,6 @@ __all__ = [
     "full_angle_to_half_angle",
     "handle_substitute",
     "preprocess",
+    "mask_phone",
+    "mask_address"
 ]
