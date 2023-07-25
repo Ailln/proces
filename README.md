@@ -77,6 +77,19 @@ result = handle_substitute("你好！/:-", r"/:-", "表情")
 # result: 你好！表情
 ```
 
+```python
+## 敏感信息过滤
+from proces import mask_phone, mask_address
+
+# 过滤手机号
+result = mask_phone("手机号 13397238231")
+# result: 手机号 133********
+
+# 过滤地址
+result = mask_address("我在浙江杭州余杭区")
+# result: 我在浙江杭州***
+```
+
 ## 3 TODO
 
 - [x] add get all methods of preprocess
