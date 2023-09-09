@@ -39,7 +39,7 @@ if __name__ == "__main__":
         long_description=open("./README.md", "r", encoding="utf-8").read(),
         long_description_content_type="text/markdown",
         include_package_data=True,
-        install_requires=open("./requirements.txt", "r", encoding="utf-8").read().splitlines(),
+        install_requires=[],
         setup_requires=["setuptools>=67.6.0"],
         zip_safe=True,
         classifiers=[

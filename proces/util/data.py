@@ -1,13 +1,12 @@
 from typing import Set, Pattern
 from re import compile
 
-from proces.util.conf import get_yaml
+from proces.data.province_city import all_cities_data
 
 
 def get_all_cities() -> Set:
-    stream_args = ["proces", "data/province_city.yaml"]
     cities = set()
-    for province, p_value in get_yaml(stream_args).items():
+    for province, p_value in all_cities_data.items():
         cities.add(province)
         for city in p_value:
             cities.add(f"{province}/{city}")

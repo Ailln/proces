@@ -11,7 +11,7 @@ from .masking import mask_address
 
 filter_ = filter_unusual_characters
 
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 
 __all__ = [
     "get_all_pipelines",

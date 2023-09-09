@@ -20,7 +20,9 @@ do
 
   echo "Install dependencies"
   python -m pip install --upgrade pip
-  pip install -r requirements.txt
+  if [ -e requirements.txt ]; then
+    pip install -r requirements.txt
+  fi
 
   echo "Lint with flake8"
   pip install flake8

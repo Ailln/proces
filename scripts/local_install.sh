@@ -2,5 +2,4 @@
 
 pip uninstall proces -y
 
-python setup.py clean
-python setup.py install
+pip install -e .
